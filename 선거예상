@@ -1,0 +1,55 @@
+import random
+
+def get_input_data():
+    input_vote = input("총 진행할 투표수를 입력해 주세요.")
+    input_vote_count = int(input_vote)
+
+    input_user = input("가상 선거를 진행할 후보자 인원을 입력해 주세요.")
+    input_user_count = int(input_user)
+
+    input_user_names = []
+    for i in range(input_user_count):
+        name = input(f"{i+1}번째 후보자 이름을 입력해 주세요.")
+        input_user_names.append(name)
+
+    return {
+        'vote_count': input_vote_count,
+        'user_names': input_user_names
+    }
+#end_def
+
+result_data = get_input_data()
+# result_data = {
+#     'vote_count':100,
+#     'user_names': ['이재명','윤석열','안철수','심상정']
+# }
+
+input_vote_count = result_data['vote_count']
+input_user_names = result_data['user_names']
+input_user_count = len(input_user_names)
+input_user_votes = [0] * input_user_count
+
+print(input_vote_count, input_user_count)
+print(input_user_names)
+print(input_user_votes)
+
+for i in range(input_vote_count):
+    vote_index = random.randint(0, input_user_count - 1)
+    input_user_votes[vote_index] +=1
+    rate = (i+1)/input_vote_count*100
+    print(f'\n[투표진행률]: {rate:6.2f}%, {1+i}명 투표 => {input_user_names[vote_index]}')
+
+    for j in range(input_user_count):
+        user_rate = input_user_votes[j] / input_vote_count*100
+        print(f'[기호:{j+1}] {input_user_names[j]}: {user_rate:6.2f}% (투표수: {input_user_votes[j]})')
+
+max_vote_count = 0
+max_user_name = ''
+
+for i in range(input_user_count):
+    vote_count = input_user_votes[i]
+    if vote_count > max_vote_count:
+        max_vote_count = vote_count
+        max_user_name = input_user_names[i]
+
+print(f'[투표결과] 당선인: {max_user_name}')
